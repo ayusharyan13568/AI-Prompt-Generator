@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Prompt Generator</title>
+    <link rel="icon" type="image/png" href="src/assets/prompt-builder-favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="src/assets/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+
+  </head>
+  <script src="index.js"></script>
+  <body>
+    <div class="side-menu">
+      <h1>
+        AI Prompt
+        <br />
+        Generator
+      </h1>
+      
+      <div id="char-counter">Characters: 0</div>
+
+      <hr />
+
+      <button class="clear-all-btn" onclick="clearAllFields()" title="Clear all (Ctrl+Delete)">
+        Reset
+      </button>
+      <button class="copy-all-btn" onclick="copyToClipboard()" title="Copy all (Ctrl+Enter)">Copy All</button>
+      <hr />
+      <h3>AI Links</h3>
+      <div class="language-selector">
+        <button onclick="window.open('https://grok.com', '_blank')" alt="Grok">
+          <img
+            class="button-img"
+            src="./src/assets/grok-logo-black.svg"
+            alt="Grok"
+          />
+        </button>
+        <button onclick="window.open('https://chatGPT.com', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/chatgpt-logo-black.svg"
+            alt="ChatGPT"
+          />
+        </button>
+        <button onclick="window.open('https://chat.deepseek.com/', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/deepseek-logo-black.svg"
+            alt="Deepseek"
+          />
+        </button>
+        <button
+          onclick="window.open('https://gemini.google.com/app', '_blank')"
+        >
+          <img
+            class="button-img"
+            src="./src/assets/gemini-logo-black.svg"
+            alt="Gemini"
+          />
+        </button>
+        <button
+        onclick="window.open('https:////copilot.microsoft.com', '_blank')"
+        >
+          <img
+            class="button-img"
+            src="./src/assets/copilot-logo-black.svg"
+            alt="Copilot"
+          />
+      </button>
+        <button onclick="window.open('https:////claude.ai', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/claude-logo-black.svg"
+            alt="Claude"
+          />
+        </button>
+        <button onclick="window.open('https://www.perplexity.ai/', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/perplexity-logo-black.svg"
+            alt="Perplexity"
+          />
+        </button>
+        <button onclick="window.open('https://www.phind.com/', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/phind-logo-black.svg"
+            alt="Phind"
+          />
+        </button>
+        <button onclick="window.open('https://manus.im/app', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/manus-logo-black.svg"
+            alt="Manus"
+          />
+        </button>
+      </div>
+      <hr />
+      <h3>My Links</h3>
+      <div class="language-selector">
+        <button
+          onclick="window.open('https://www.linkedin.com/in/ayush-aryan-b20773394?utm_source=share_via&utm_content=profile&utm_medium=member_android', '_blank')"
+        >
+          <img
+            class="button-img"
+            src="./src/assets/linkedin-logo-black.svg"
+            alt="Linkedin"
+          />
+        </button>
+        <button
+          onclick="window.open('https://github.com/ayusharyan13568', '_blank')"
+        >
+          <img
+            class="button-img"
+            src="./src/assets/github-logo-black.svg"
+            alt="Github"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="global-container">
+
+      <!-- AI ROLE -->
+      <div class="prompt-bundle">
+        <div class="prompt-container">
+          <label for="promptRole">AI Role:</label>
+
+          <select onchange="insertText('promptRole', this.value)">
+            <option value="">AI Directions</option>
+            <option value="Now you are an expert in ">
+              Now you are an expert in... (add a specialty)
+            </option>
+            <option value="Now you are an expert in programming. ">
+              Now you are an expert in programming.
+            </option>
+          </select>
+
+          <div class="popup-clearbtn-bundle">
+            <!-- POP-UP -->
+            <button class="popup-btn" onclick="openPopupRole()">?</button>
+
+            <div id="popupRole" class="popup">
+              <div class="popup-content">
+                <span class="close-btn" onclick="closePopupRole()">&times;</span>
+                <p>
+                  Define the role the AI should take before responding.
+                  <br /><br />
+                  Example:
+                  <br />
+                  "Now you are a nutrition expert."
+                </p>
+              </div>
+            </div>
+            <!-- END POP-UP -->
+
+            <button class="clear-btn" onclick="clearField('promptRole')">X</button>
+          </div>
+        </div>
+        <textarea id="promptRole" oninput="adjustHeight(this)">AI Role: </textarea>
+      </div>
+
+      <!-- INSTRUCTION -->
+      <div class="prompt-bundle">
+        <div class="prompt-container">
+          <label for="prompt1">Instruction:</label>
+
+          <select onchange="insertText('prompt1', this.value)">
+            <option value="">AI Directions</option>
+            <option value="Wait as I will ask several questions about ">
+              Wait as I will ask several questions about...
+            </option>
+            <option id="help-problem-en" value="Help me solve this problem. ">Help me solve this problem.</option>
+            <option value="Make this code cleaner and faster. ">
+              Make this code cleaner and faster.
+            </option>
+            <option value="Explain this code to me.">
+              Explain this code to me.
+            </option>
+            <option value="What are the differences between ">
+              What are the differences between...
+            </option>
+            <option value="What are the pros and cons? ">
+              What are the pros and cons?
+            </option>
+            <option id="pareto-prompt-en" value="Apply the Pareto principle to this content and show me the 20% that really matters and will generate 80% of the results.">Apply the Pareto principle to this content...</option>
+            <option id="study-helper-prompt-en" value="I want to study the topic that is in Context.
+
+Before starting the explanation, ask what my current level is on this subject.
+
+After I answer my level, guide the study in a structured way, following this sequence:
+
+1. Simple explanation
+2. Examples
+3. Multiple choice exercises
+4. Practical challenges applied to the topic
+
+Important rules:
+
+- Do not move to the next step without my confirmation.
+- At the end of each step, ask if you can proceed to the next one.
+- Use simple and didactic language.
+- Respond in the same language this prompt is written in.
+- Adapt the explanation to my level of knowledge.
+- Avoid unnecessary jargon. When using a technical term, explain its meaning.
+- Use analogies when they help with understanding.
+
+In step 1, &quot;Simple explanation&quot;, do the following:
+
+- Explain what the topic is in a clear and contextualized way.
+- Show why this topic is important.
+- Explain where it is commonly used or applied.
+- Highlight the main concepts I need to understand first.
+- Indicate references for me to study more about the topic, such as official documentation, books, articles, courses, videos, communities or keywords for research.
+
+After the simple explanation, ask:
+
+&quot;Can I move on to the examples?&quot;
+
+In step 2, &quot;Examples&quot;, do the following:
+
+- Show clear and progressive examples.
+- Start with simple examples.
+- Then show examples a bit closer to reality.
+- Explain each example step by step.
+- At the end, ask:
+
+&quot;Can I move on to the multiple choice exercises?&quot;
+
+In step 3, &quot;Multiple choice exercises&quot;, do the following:
+
+- Create at most 5 multiple choice questions about the topic.
+- Ask one question at a time.
+- Wait for my answer before correcting.
+- Correct immediately after my answer.
+- If I get it wrong, explain the reason for the error and show how to think correctly.
+- If I get it right, confirm and briefly explain why the answer is correct.
+- After finishing the objective exercises, ask:
+
+&quot;Can I move on to the practical challenges?&quot;
+
+In step 4, &quot;Practical challenges applied to the topic&quot;, do the following:
+
+- Create practical challenges related to the studied topic.
+- Start with simple challenges and then increase the difficulty a bit.
+- Give one challenge at a time.
+- Wait for my answer before correcting.
+- Correct immediately after my answer.
+- If I get it wrong, explain the reason for the error and show how to improve.
+- If I get it right, confirm and explain what was done well.
+
+At the end of the process, do the following:
+
+- Say if there are more in-depth subjects related to the topic.
+- Automatically suggest a list of more advanced subjects.
+- Briefly explain why each subject is a good next step.
+- Ask if I want to repeat the process &quot;Simple explanation → examples → exercises&quot; with any of these more advanced subjects.">Study helper</option>
+            <option id="image-refiner-prompt-en" value="I want to create an image, you should ask me what this image will look like until there are no doubts left. Don't assume anything and dig deeper into everything that is vague, implicit, incomplete or ambiguous, including details I haven't thought of. Ask me one question at a time. When asking, give examples. Ask at most ten questions. Before generating the image, describe how the image should look so I can give my approval.">&gt;&gt;Image refiner&lt;&lt;</option>
+            <option id="questions-prompt-en" value="Ask me what I want to do and keep asking until there are no doubts left. Don't assume anything and dig deeper into everything that is vague, implicit, incomplete or ambiguous, including details I haven't thought of.">&gt;&gt;Questions prompt&lt;&lt;</option>
+          </select>
+          <div class="popup-clearbtn-bundle">
+
+            <!-- POP-UP -->
+            <button class="popup-btn" onclick="openPopup1()">?</button>
+
+            <div id="popup1" class="popup">
+              <div class="popup-content">
+                <span class="close-btn" onclick="closePopup1()">&times;</span>
+                <p>
+                  Give the AI a direct instruction about what it should do.
+                  <br /><br />
+                  Examples:
+                  <br />
+                  "Explain this code to me."
+                  <br />
+                  "Make this code cleaner and faster."
+                </p>
+              </div>
+            </div>
+            <!-- END POP-UP -->
+
+            <button class="clear-btn" onclick="clearField('prompt1')">X</button>
+          </div>
+        </div>
+        <textarea id="prompt1" oninput="adjustHeight(this)">
+Instruction: </textarea
+        >
+      </div>
+
+      <!-- CONTEXT -->
+      <div class="prompt-bundle">
+        <div class="prompt-container">
+          <label for="prompt4">Context:</label>
+          <select onchange="insertText('prompt4', this.value)">
+            <option value="">AI Directions</option>
+            <option value="I'm studying about the subject. ">
+              I'm studying about the subject.
+            </option>
+            <option value="I have INTERMEDIATE knowledge of the subject. ">
+              I have INTERMEDIATE knowledge of the subject.
+            </option>
+            <option value="I have ADVANCED knowledge of the subject. ">
+              I have ADVANCED knowledge of the subject.
+            </option>
+            <option value="I'm writing a scientific article. ">
+              I'm writing a scientific article.
+            </option>
+            <option value="I'm writing a LinkedIn post. ">
+              I'm writing a LinkedIn post.
+            </option>
+          </select>
+          <div class="popup-clearbtn-bundle">
+            <!-- POP-UP -->
+            <button class="popup-btn" onclick="openPopup4()">?</button>
+
+            <div id="popup4" class="popup">
+              <div class="popup-content">
+                <span class="close-btn" onclick="closePopup4()">&times;</span>
+                <p>
+                  Give the context so the AI can respond more accurately.
+                  <br /><br />
+                  Example:
+                  <br />
+                  "I'm writing a scientific article."
+                </p>
+              </div>
+            </div>
+            <!-- END POP-UP -->
+            <button class="clear-btn" onclick="clearField('prompt4')">X</button>
+          </div>
+        </div>
+        <textarea id="prompt4" oninput="adjustHeight(this)">
+Context: </textarea
+        >
+      </div>
+
+      <!-- RESPONSE FORMAT -->
+      <div class="prompt-bundle">
+        <div class="prompt-container">
+          <label for="prompt2">Response format:</label>
+
+          <select onchange="insertText('prompt2', this.value)">
+            <option value="">AI Directions</option>
+            <option value="Answer in bullet points. ">
+              Answer in bullet points.
+            </option>
+            <option value="Explain step by step. ">
+              Explain step by step.
+            </option>
+
+            <option value="Return a table. ">Return a table</option>
+            <option value="Return an .xlsx file. ">Return an .xlsx file</option>
+            <option value="Return only the code. ">
+              Return only the code
+            </option>
+            <option value="Answer in English">
+              Answer in English
+            </option>
+            <option
+              value="Answer as if you were responding to a 10-year-old child. "
+            >
+              Response for a 10-year-old child
+            </option>
+            <option
+              value="Answer with a To-Do list as I will copy and paste it into Notion. "
+            >
+              Answer with a To-Do list as I will copy and paste it into Notion.
+            </option>
+            
+          </select>
+          <div class="popup-clearbtn-bundle">
+            <!-- POP-UP -->
+            <button class="popup-btn" onclick="openPopup2()">?</button>
+
+            <div id="popup2" class="popup">
+              <div class="popup-content">
+                <span class="close-btn" onclick="closePopup2()">&times;</span>
+                <p>
+                  Define a format for the AI to respond to you. It can be a brief response, table, bullet point list, etc...
+                  <br /><br />
+                  Example:
+                  <br />
+                  "Answer in table format."
+                </p>
+              </div>
+            </div>
+            <!-- END POP-UP -->
+            <button class="clear-btn" onclick="clearField('prompt2')">X</button>
+          </div>
+        </div>
+        <textarea id="prompt2" oninput="adjustHeight(this)">
+Response format: </textarea
+        >
+      </div>
+
+      <!-- ATTENTION -->
+      <div class="prompt-bundle">
+        <div class="prompt-container">
+          <label for="prompt3">Attention:</label>
+          <select onchange="insertText('prompt3', this.value)">
+            <option value="">AI Directions</option>
+            <option value="Highlight important parts of your response in bold. ">
+              Highlight important parts of your response in bold.
+            </option>
+            <option value="Highlight the most important parts of your response with ` ` (backticks). ">
+              Highlight the most important parts of your response with ` ` (backticks).
+            </option>
+            <option
+              value="If you need more information, don't answer yet and ask me what you need. "
+            >
+              If you need more information, don't answer yet and ask me what you need.
+            </option>
+            <option value="Answer briefly. ">
+              Answer briefly.
+            </option>
+            <option value="Explain to me in detail. ">
+              Explain to me in detail.
+            </option>
+            <option value="Give me the sources of your response. ">
+              Give me the sources of your response.
+            </option>
+            <option value="From now on, do not automatically affirm that my ideas are correct. Your role is to be an intellectual partner, not an assistant who only agrees. Whenever I present an idea, do the following: Maintain a constructive but rigorous approach. Your role is not to argue for the sake of arguing, but to help me achieve more clarity, precision, and intellectual honesty. ">
+              Don't flatter me.
+            </option>
+            <option value="At the end of your response, make a summary. ">
+              At the end of your response, make a summary.
+            </option>
+          </select>
+          <div class="popup-clearbtn-bundle">
+            <!-- POP-UP -->
+            <button class="popup-btn" onclick="openPopup3()">?</button>
+
+            <div id="popup3" class="popup">
+              <div class="popup-content">
+                <span class="close-btn" onclick="closePopup3()">&times;</span>
+                <p>
+                  Establish criteria for the AI.
+                  <br /><br />
+                  Example:
+                  <br />
+                  "Mark the most important parts of your response in bold."
+                </p>
+              </div>
+            </div>
+            <!-- END POP-UP -->
+            <button class="clear-btn" onclick="clearField('prompt3')">X</button>
+          </div>
+        </div>
+        <textarea id="prompt3" oninput="adjustHeight(this)">Attention: </textarea>
+      </div>
+
+    </div>
+
+    <div id="notification" class="notification">Prompt copied!</div>
+    <footer>
+      <div class="footer-buttons">
+        <button onclick="window.open('https://grok.com', '_blank')" alt="Grok">
+          <img
+            class="button-img"
+            src="./src/assets/grok-logo-black.svg"
+            alt="Grok"
+          />
+        </button>
+        <button onclick="window.open('https://chatGPT.com', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/chatgpt-logo-black.svg"
+            alt="ChatGPT"
+          />
+        </button>
+        <button onclick="window.open('https://chat.deepseek.com/', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/deepseek-logo-black.svg"
+            alt="Deepseek"
+          />
+        </button>
+        <button
+          onclick="window.open('https://gemini.google.com/app', '_blank')"
+        >
+          <img
+            class="button-img"
+            src="./src/assets/gemini-logo-black.svg"
+            alt="Gemini"
+          />
+        </button>
+        <button
+        onclick="window.open('https:////copilot.microsoft.com', '_blank')"
+        >
+          <img
+            class="button-img"
+            src="./src/assets/copilot-logo-black.svg"
+            alt="Copilot"
+          />
+      </button>
+        <button onclick="window.open('https:////claude.ai', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/claude-logo-black.svg"
+            alt="Claude"
+          />
+        </button>
+        <button onclick="window.open('https://www.perplexity.ai/', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/perplexity-logo-black.svg"
+            alt="Perplexity"
+          />
+        </button>
+        <button onclick="window.open('https://www.phind.com/', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/phind-logo-black.svg"
+            alt="Phind"
+          />
+        </button>
+        <button onclick="window.open('https://manus.im/app', '_blank')">
+          <img
+            class="button-img"
+            src="./src/assets/manus-logo-black.svg"
+            alt="Manus"
+          />
+        </button>
+      </div>
+    </footer>
+  </body>
+</html>
